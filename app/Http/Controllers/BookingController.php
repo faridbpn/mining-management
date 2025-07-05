@@ -40,20 +40,31 @@ class BookingController extends Controller
         $data['user_id'] = Auth::id();
         $data['status'] = 'pending';
         $booking = Booking::create($data);
-        // Buat approval level 1 dan 2 (dummy, bisa dikembangkan)
-        Approval::create([
-            'booking_id' => $booking->id,
-            'approver_id' => 2, // Approver 1 (dummy)
-            'level' => 1,
-            'status' => 'pending',
-        ]);
-        Approval::create([
-            'booking_id' => $booking->id,
-            'approver_id' => 3, // Approver 2 (dummy)
-            'level' => 2,
-            'status' => 'pending',
-        ]);
-        return redirect()->route('bookings.index')->with('success', 'Pemesanan berhasil diajukan.');
+        $approver1 = \App\Models\User::where('role', 'approver')->where('approver_level', 1)->first();
+        $approver2 = \App\Models\User::where('role', 'approver')->where('approver_level', 2)->first();
+        if ($approver1) {
+            \App\Models\Approval::create([
+                'booking_id' => $booking->id,
+                'approver_id' => $approver1->id,
+                'level' => 1,
+                'status' => 'pending',
+            ]);
+        }
+        if ($approver2) {
+            \App\Models\Approval::create([
+                'booking_id' => $booking->id,
+                'approver_id' => $approver2->id,
+                'level' => 2,
+                'status' => 'pending',
+            ]);
+        }
+        // Untuk admin:
+        if(Auth::user()->isAdmin()) {
+            $route = 'admin.bookings.index';
+        } else {
+            $route = 'employee.bookings.index';
+        }
+        return redirect()->route($route)->with('success', 'Pemesanan berhasil diajukan.');
     }
 
     public function show(Booking $booking)
@@ -85,13 +96,25 @@ class BookingController extends Controller
             'status' => 'required',
         ]);
         $booking->update($data);
-        return redirect()->route('bookings.index')->with('success', 'Pemesanan berhasil diupdate.');
+        // Untuk admin:
+        if(Auth::user()->isAdmin()) {
+            $route = 'admin.bookings.index';
+        } else {
+            $route = 'employee.bookings.index';
+        }
+        return redirect()->route($route)->with('success', 'Pemesanan berhasil diupdate.');
     }
 
     public function destroy(Booking $booking)
     {
         $booking->delete();
-        return redirect()->route('bookings.index')->with('success', 'Pemesanan berhasil dihapus.');
+        // Untuk admin:
+        if(Auth::user()->isAdmin()) {
+            $route = 'admin.bookings.index';
+        } else {
+            $route = 'employee.bookings.index';
+        }
+        return redirect()->route($route)->with('success', 'Pemesanan berhasil dihapus.');
     }
 
     public function myBookings()

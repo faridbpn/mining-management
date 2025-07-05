@@ -32,7 +32,7 @@ class VehicleController extends Controller
             'service_interval_km' => 'nullable|integer',
         ]);
         Vehicle::create($data);
-        return redirect()->route('vehicles.index')->with('success', 'Kendaraan berhasil ditambahkan.');
+        return redirect()->route('admin.vehicles.index')->with('success', 'Kendaraan berhasil ditambahkan.');
     }
 
     public function show(Vehicle $vehicle)
@@ -58,12 +58,12 @@ class VehicleController extends Controller
             'service_interval_km' => 'nullable|integer',
         ]);
         $vehicle->update($data);
-        return redirect()->route('vehicles.index')->with('success', 'Kendaraan berhasil diupdate.');
+        return redirect()->route('admin.vehicles.index')->with('success', 'Kendaraan berhasil diupdate.');
     }
 
     public function destroy(Vehicle $vehicle)
     {
         $vehicle->delete();
-        return redirect()->route('vehicles.index')->with('success', 'Kendaraan berhasil dihapus.');
+        return redirect()->route('admin.vehicles.index')->with('success', 'Kendaraan berhasil dihapus.');
     }
 } 

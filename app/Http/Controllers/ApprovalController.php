@@ -24,7 +24,7 @@ class ApprovalController extends Controller
     public function edit(Approval $approval)
     {
         return view('approvals.edit', compact('approval'));
-    }
+    }w
 
     public function update(Request $request, Approval $approval)
     {
@@ -40,13 +40,13 @@ class ApprovalController extends Controller
         } elseif ($booking->approvals()->where('status', 'rejected')->count() > 0) {
             $booking->update(['status' => 'rejected']);
         }
-        return redirect()->route('approvals.index')->with('success', 'Approval berhasil diproses.');
+        return redirect()->route('approver.approvals.index')->with('success', 'Approval berhasil diproses.');
     }
 
     public function destroy(Approval $approval)
     {
         $approval->delete();
-        return redirect()->route('approvals.index')->with('success', 'Approval berhasil dihapus.');
+        return redirect()->route('approver.approvals.index')->with('success', 'Approval berhasil dihapus.');
     }
 
     public function history()

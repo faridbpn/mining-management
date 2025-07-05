@@ -82,5 +82,7 @@ Route::middleware(['auth', CheckRoleMiddleware::class . ':approver'])->prefix('a
 Route::middleware(['auth', CheckRoleMiddleware::class . ':employee'])->prefix('employee')->name('employee.')->group(function () {
     Route::get('dashboard', [DashboardController::class, 'employee'])->name('dashboard');
     Route::get('bookings', [BookingController::class, 'myBookings'])->name('bookings.index');
+    Route::get('bookings/create', [BookingController::class, 'create'])->name('bookings.create');
+    Route::post('bookings', [BookingController::class, 'store'])->name('bookings.store');
     Route::get('bookings/{booking}', [BookingController::class, 'show'])->name('bookings.show');
 });

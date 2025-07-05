@@ -64,6 +64,7 @@ class DatabaseSeeder extends Seeder
                 'password' => Hash::make('approver123'),
                 'role' => 'approver',
                 'role_name' => 'approver',
+                'approver_level' => 1,
             ],
             [
                 'name' => 'Approver 2',
@@ -71,6 +72,7 @@ class DatabaseSeeder extends Seeder
                 'password' => Hash::make('approver123'),
                 'role' => 'approver',
                 'role_name' => 'approver',
+                'approver_level' => 2,
             ],
             [
                 'name' => 'Pegawai 1',

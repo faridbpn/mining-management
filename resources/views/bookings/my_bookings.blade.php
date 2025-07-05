@@ -1,6 +1,7 @@
 @extends('layouts.app')
 @section('content')
 <h1 class="mb-4">Pemesanan Saya</h1>
+<a href="{{ route('employee.bookings.create') }}" class="btn btn-primary mb-3">Tambah Pemesanan</a>
 <table class="table table-bordered table-striped">
     <thead>
         <tr>
